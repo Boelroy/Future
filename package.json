@@ -8,11 +8,12 @@
   },
   "keywords": [
     "promise",
-    "future"
+    "future",
+    "promises-aplus"
   ],
   "author": "Boelroy",
   "license": "MIT",
   "devDependencies": {
-    "promises-aplus-tests": "~1"
+    "promises-aplus-tests": "^2.1.1"
   }
 }
