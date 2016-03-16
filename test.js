@@ -1,18 +1,18 @@
 'use strict';
 var future = require('./future.js');
 
-exports.pending = function() {
+exports.deferred = function() {
     var pending = {};
 
     pending.promise = future(function(resolve, reject) {
-        pending.fulfill = resolve;
+        pending.resolve = resolve;
         pending.reject = reject;
     });
 
     return pending;
 };
 
-exports.fulfilled = function(x){
+exports.resolved = function(x){
     return future(function(resolve){
         resolve(x);
     });

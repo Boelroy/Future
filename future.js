@@ -21,6 +21,9 @@ function resolve(_future) {
     var _queue, next;
     _future.status = 'fullfiled';
     _future.x = data;
+    if (data && data.test === 1) {
+      console.log(_future);
+    }
     setTimeout(function() {
       _queue = _future.queue.slice();
       _future.queue = [];
@@ -81,6 +84,9 @@ var then = function(_future){
 
 function makeThenable(x, _future, promise, isReject) {
   if (x instanceof Future) {
+    if (promise === x) {
+      throw new TypeError('Should not return the same promise');
+    }
     x.queue.push({
       onFullFilled: function(value){
         return value;
@@ -98,9 +104,40 @@ function makeThenable(x, _future, promise, isReject) {
     }
     promise = x;
     x = promise.x;
-  } else if (x && typeof x === 'object' && typeof x.then === 'function'){
-    var _then = x.then.bind(x);
-    _then.call(x, resolve(promise), reject(promise));
+  } else if ((x && typeof x === 'object') || (x && typeof x === 'function')){
+    var _then;
+    try {
+      _then = x.then;
+      x.status = 'pending';
+      if(typeof _then === 'function') {
+        var resolvePromise = function(value){
+          if (x.status === 'pending'){
+            x.status = 'fullfiled';
+            makeThenable(value, _future, promise);
+          }
+        };
+        var rejectPromise = function(value) {
+            if (x.status === 'pending'){
+              x.status = 'rejected';
+              reject(promise)(value);
+            }
+        };
+        try{
+          _then.call(x, resolvePromise, rejectPromise);
+        } catch(e) {
+          if (x.status === 'pending')
+            reject(promise)(e);
+        }
+      } else {
+        if (isReject) {
+          reject(promise)(x);
+        } else {
+          resolve(promise)(x);
+        }
+      }
+     } catch(e) {
+        reject(promise)(e);
+    }
     return;
   }
   if (isReject) {
