@@ -1,0 +1,18 @@
+{
+  "name": "node-future",
+  "version": "0.0.1",
+  "description": "the re-implemention of the origin concept of the future and promise",
+  "main": "future.js",
+  "scripts": {
+    "test": "promises-aplus-tests ./test.js"
+  },
+  "keywords": [
+    "promise",
+    "future"
+  ],
+  "author": "Boelroy",
+  "license": "MIT",
+  "devDependencies": {
+    "promises-aplus-tests": "~1"
+  }
+}
