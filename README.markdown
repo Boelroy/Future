@@ -1,3 +1,8 @@
+<a href="http://promises-aplus.github.com/promises-spec">
+    <img src="http://promises-aplus.github.com/promises-spec/assets/logo-small.png"
+         align="right" alt="Promises/A+ logo" />
+</a>
+
 ## Future.js
 #### Concept
 the purpose of the this project is to implement the original concept of [Futures and Promises](https://en.wikipedia.org/wiki/Futures_and_promises) that the Promises described in Promises/A+ is actully the Futures while the Promises is actully some can munipulate the Futures;
