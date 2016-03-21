@@ -16,50 +16,41 @@ var future,
   this.status = 'pending';
 };
 
+function process(_future, val, status) {
+  _future.status = status;
+  _future.x = val;
+  var _queue, next,
+    onHandleType = status === 'fullfiled' ? 'onFullFilled' : 'onRejected',
+    isReject = status === 'rejected';
+
+  setTimeout(function(){
+    _queue = _future.queue.slice();
+    _future.queue = [];
+    while(_queue.length) {
+      next = _queue.shift();
+      if (typeof next[onHandleType] !== 'function')  {
+        makeThenable(val, _future, next.future, isReject);
+        return;
+      }
+      var handler = next[onHandleType];
+      try {
+        makeThenable(handler(val), _future, next.future, isReject && next.type === 1);
+      } catch(e) {
+        reject(next.future)(e);
+      }
+    }
+  }, 0);
+}
+
 function resolve(_future) {
   return function(data) {
-    var _queue, next;
-    _future.status = 'fullfiled';
-    _future.x = data;
-    if (data && data.test === 1) {
-      console.log(_future);
-    }
-    setTimeout(function() {
-      _queue = _future.queue.slice();
-      _future.queue = [];
-      while(_queue.length) {
-        next = _queue.shift();
-        if (typeof next.onFullFilled !== 'function') makeThenable(data, _future, next.future);
-        var onFullFilled = next.onFullFilled;
-        try {
-          makeThenable(onFullFilled(data), _future, next.future);
-        } catch (e) {
-          reject(next.future)(e);
-        }
-      }
-    }, 0);
+    process(_future, data, 'fullfiled');
   };
 }
 
 function reject(_future) {
   return function(reason) {
-    _future.status = 'rejected';
-    _future.x = reason;
-    var _queue, next;
-    setTimeout(function() {
-      _queue = _future.queue.slice();
-      _future.queue = [];
-      while(_queue.length) {
-        next = _queue.shift();
-        if (typeof next.onRejected !== 'function') makeThenable(reason, _future, next.future, true);
-        var onRejected = next.onRejected;
-        try {
-          makeThenable(onRejected(reason), _future, next.future, next.type === 1);
-        } catch(e) {
-          reject(next.future)(e);
-        }
-      }
-    }, 0);
+    process(_future, reason, 'rejected');
   };
 }
 
