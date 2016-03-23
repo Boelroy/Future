@@ -1,6 +1,6 @@
 {
   "name": "node-future",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "the re-implemention of the origin concept of the future and promise",
   "main": "future.js",
   "scripts": {
@@ -15,5 +15,9 @@
   "license": "MIT",
   "devDependencies": {
     "promises-aplus-tests": "^2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Boelroy/Future.js"
   }
 }
