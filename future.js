@@ -73,6 +73,14 @@ var then = function(_future){
   };
 };
 
+function handle(isReject, promise, x) {
+  if (isReject) {
+    reject(promise)(x);
+  } else {
+    resolve(promise)(x);
+  }
+}
+
 function makeThenable(x, _future, promise, isReject) {
   if (x instanceof Future) {
     if (promise === x) {
@@ -120,22 +128,14 @@ function makeThenable(x, _future, promise, isReject) {
             reject(promise)(e);
         }
       } else {
-        if (isReject) {
-          reject(promise)(x);
-        } else {
-          resolve(promise)(x);
-        }
+        handle(isReject, promise, x);
       }
      } catch(e) {
         reject(promise)(e);
     }
     return;
   }
-  if (isReject) {
-    reject(promise)(x);
-  } else {
-    resolve(promise)(x);
-  }
+  handle(isReject, promise, x);
 }
 
 future = function(resolver) {
