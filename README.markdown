@@ -19,3 +19,9 @@ future(function(resolve, reject){
 }).then(someDoneFunction, someFailFunction)
 
 ```
+#### Install with npm
+
+```
+npm install node-future
+
+```
