@@ -3,6 +3,8 @@
          align="right" alt="Promises/A+ logo" />
 </a>
 
+[![npm](https://img.shields.io/npm/dy/localeval.svg)]()
+
 ## Future.js
 #### Concept
 the purpose of the this project is to implement the original concept of [Futures and Promises](https://en.wikipedia.org/wiki/Futures_and_promises). Promises in "Promises/A+" is actually one form of Futures, meanwhile, Promises can be used to manipulate Futures.
