@@ -3,7 +3,7 @@
          align="right" alt="Promises/A+ logo" />
 </a>
 
-[![npm](https://img.shields.io/npm/dy/localeval.svg)]()
+[![npm](https://img.shields.io/npm/dy/future.js.svg)]()
 
 ## Future.js
 #### Concept
